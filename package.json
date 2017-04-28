@@ -10,7 +10,7 @@
     "test": "standard && tap -R=spec test/*.js",
     "cov": "tap --cov test/*.js",
     "cov-ui": "tap --cov --coverage-report=html test/*.js",
-    "ci": "standard && tap --cov test/*.js"
+    "ci": "standard && tap --cov --coverage-report=lcov test/*.js"
   },
   "author": "David Mark Clements",
   "license": "MIT",
