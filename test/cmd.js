@@ -285,7 +285,7 @@ test('redirect custom fd to file (& unexpected close)', function (t) {
     input: log
   })
 
-  t.is(fs.readFileSync(tmp) + '', expected + 'unexpected close\n')
+  t.is(fs.readFileSync(tmp).toString().split('\n')[0] + '\n', expected)
   fs.unlinkSync(tmp)
 
   t.end()
@@ -318,6 +318,7 @@ test('generate unsupported stdio TTY case', function (t) {
 test('generate unsupported stdio', function (t) {
   var tmp = path.join(__dirname, 'tmp')
   fs.writeFileSync(tmp, `
+    process._rawDebug('hi')
     var binding = process.binding
     process.binding = function (ns) {
       if (ns === 'tty_wrap') {
@@ -326,27 +327,17 @@ test('generate unsupported stdio', function (t) {
         b.guessHandleType = function (fd) {
           // calls to this method differs in coverage, to straight test run
           // so have to determine when to mock to avoid throwing in the wrong place
-          var mock = false 
-          Error.prepareStackTrace = function (msg, stack) {
-            if (stack[3].getFileName() === '${path.join(cwd, 'stdio.js')}') {
-              mock = true
-            }
-          }
-          // have to do something in this strange context
-          // that triggers prepareStackTrace BEFORE returning,
-          // passing to console.log seems to do it (and it won't appear)
-          // in parent output, unlike process._rawDebug
-          var console = require('console')
-          if (console.log) console.log(Error())
+          var mock = Error().stack.toString().match('${path.join(cwd, 'stdio.js')}')
           return mock ? 'UNKNOWN' : guessHandleType(fd)
         }
         return b
       }
       return binding(ns)
     }
+    require('../cmd.js')
   `)
   var args = ['-d', '3', ':pid']
-  var result = cp.spawnSync('node', ['-r', tmp, 'cmd.js'].concat(args), {
+  var result = cp.spawnSync('node', [tmp].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log
