@@ -1,0 +1,38 @@
+{
+  "name": "pino-http-logger",
+  "version": "1.0.0",
+  "description": "Transform Pino HTTP log messages with a format string",
+  "main": "index.js",
+  "bin": {
+    "pino-http-format": "./cmd.js"
+  },
+  "scripts": {
+    "test": "standard && tap -R=spec test/*.js",
+    "cov": "tap --cov test/*.js",
+    "cov-ui": "tap --cov --coverage-report=html test/*.js",
+    "ci": "standard && tap --cov test/*.js"
+  },
+  "author": "David Mark Clements",
+  "license": "MIT",
+  "devDependencies": {
+    "standard": "^7.1.2",
+    "tap": "^6.2.0"
+  },
+  "dependencies": {
+    "basic-auth": "^1.1.0",
+    "clf-date": "0.0.4",
+    "minimist": "^1.2.0",
+    "ndjson": "^1.4.3",
+    "pump": "^1.0.2",
+    "through2": "^2.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pinojs/pino-http-format.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/pinojs/pino-http-format/issues"
+  },
+  "homepage": "https://github.com/pinojs/pino-http-format#readme"
+}

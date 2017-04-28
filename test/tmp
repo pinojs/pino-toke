@@ -1,0 +1,28 @@
+
+    var binding = process.binding
+    process.binding = function (ns) {
+      if (ns === 'tty_wrap') {
+        var b = binding(ns)
+        var guessHandleType = b.guessHandleType
+        b.guessHandleType = function (fd) {
+          // calls to this method differs in coverage, to straight test run
+          // so have to determine when to mock to avoid throwing in the wrong place
+          var mock = false 
+          Error.prepareStackTrace = function (msg, stack) {
+            if (stack[3].getFileName() === '/Users/davidclements/z/nearForm/pino-http-format/stdio.js') {
+              mock = true
+            }
+          }
+          // have to do something in this strange context
+          // that triggers prepareStackTrace BEFORE returning,
+          // passing to console.log seems to do it (and it won't appear)
+          // in parent output, unlike process._rawDebug
+          var console = require('console')
+          if (console.log) console.log(Error())
+          return mock ? 'UNKNOWN' : guessHandleType(fd)
+        }
+        return b
+      }
+      return binding(ns)
+    }
+  

@@ -1,0 +1,14 @@
+  
+    pino-http-format [-d] [-a] [-k] [tokens]
+
+    -d | --dest |       stderr | stdout (default) or Number. Specify output fd
+    --destination
+    
+    -a | --ancillary    stderr | stdout or Number. Specify JSON logs fd
+    
+    -k | --keep         true | false (default) Retain transformed logs in ancillary output
+
+    tokens              :id :pid :level :hostname :url :date[format] :time[format] 
+                        :method :response-time :status :referrer :remote-addr 
+                        :remote-user :http-version :user-agent :req[header] :res[header]
+
