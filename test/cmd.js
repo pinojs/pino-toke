@@ -353,7 +353,7 @@ test('generate unsupported stdio', function (t) {
   })
 
   t.ok(/Error: Unknown stream type/.test(result.stderr + ''))
-
+  fs.unlinkSync(tmp)
   t.end()
 })
 

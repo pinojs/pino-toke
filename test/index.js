@@ -124,9 +124,12 @@ test(':date[iso]', function (t) {
 })
 
 test(':date[clf]', function (t) {
-  var expected = '21/Jul/2016:17:34:52 -0060\n'
+  var getTimezoneOffset = Date.prototype.getTimezoneOffset
+  Date.prototype.getTimezoneOffset = function () { return 0 }
+  var expected = '21/Jul/2016:17:34:52 -0000\n'
   var logger = format(':date[clf]', through(function (line) {
     t.is(line.toString(), expected)
+    Date.prototype.getTimezoneOffset = getTimezoneOffset
     t.end()
   }))
   logger.write(log)
