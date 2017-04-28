@@ -1,7 +1,6 @@
 'use strict'
 
 var ttyWrap = process.binding('tty_wrap')
-var tty = require('tty')
 var fs = require('fs')
 var net = require('net')
 

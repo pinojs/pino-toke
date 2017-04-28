@@ -1,4 +1,4 @@
-# pino-http-format
+# pino-http-format &nbsp; &nbsp; [![Build Status](https://travis-ci.org/pinojs/pino-http-format.svg?branch=master)](https://travis-ci.org/pinojs/pino-http-format)
 
 Transform Pino HTTP log messages with a format string
 
