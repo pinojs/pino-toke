@@ -1,6 +1,5 @@
 # pino-http-format &nbsp; &nbsp;[![stability][0]][1]
-[![npm version][2]][3] [![build status][4]][5] [![test coverage][6]][7]
-[![downloads][8]][9] [![dependencies freshness][14]][15] [![js-standard-style][10]][11]
+[![npm version][2]][3] [![build status][4]][5] [![test coverage][6]][7] [![dependencies freshness][14]][15] [![js-standard-style][10]][11]
 
 Transform Pino HTTP log messages with a format string
 
@@ -109,7 +108,7 @@ This will sends formatted HTTP logs to the `./http-logs` file and pipe all other
 $ node server | pino-http-format -a 1 -d 4 :status :get :url - :response-time ms 4> ./http-logs | pino-elasticsearch
 ```
 
-## Keep Original HTTP JSON Logs (`k`)
+## Keep Original HTTP JSON Logs (`-k`)
 
 The `-a` (`--ancillary`) flag can be coupled with the `-k` (`--keep`) flag so that
 raw HTTP JSON logs are also piped to the ancillary output stream, along with any
