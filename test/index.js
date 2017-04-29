@@ -289,8 +289,8 @@ test('composition/interpolation', function (t) {
   logger.write(log)
 })
 
-test('outputs message when stream ends', function (t) {
-  var expected = 'unexpected close\n'
+test('outputs newline when stream ends', function (t) {
+  var expected = '\n'
   var stream = through(function (line) {
     t.is(line.toString(), expected)
     t.end()

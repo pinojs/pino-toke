@@ -27,7 +27,7 @@ function format (fmt, destination, ancillary) {
   })
   var out = destination || process.stdout
   pump(printer, transform, out, function (err) {
-    out.write((err ? err.message + '\n' : 'unexpected close\n'))
+    out.write((err ? err.message + '\n' : '\n'))
   })
 
   return printer
