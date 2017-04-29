@@ -291,34 +291,42 @@ test('redirect custom fd to file (& unexpected close)', function (t) {
   t.end()
 })
 
-test('generate unsupported stdio TTY case', function (t) {
+test('generate TTY case', function (t) {
   var tmp = path.join(__dirname, 'tmp')
   fs.writeFileSync(tmp, `
     var binding = process.binding
-
     process.binding = function (ns) {
       if (ns === 'tty_wrap') {
         var b = binding(ns)
-        b.guessHandleType = function () { return 'TTY' }
+        var guessHandleType = b.guessHandleType
+        b.guessHandleType = function (fd) {
+          // calls to this method differs in coverage, to straight test run
+          // so have to determine when to mock to avoid throwing in the wrong place
+          var mock = Error().stack.toString().match('${path.join(cwd, 'stdio.js')}')
+          return mock ? 'TTY' : guessHandleType(fd)
+        }
+        return b
       }
       return binding(ns)
     }
+    require('../cmd.js')
   `)
+  var expected = '13961\n'
   var args = ['-d', '3', ':pid']
-  var result = cp.spawnSync('node', ['-r', tmp, 'cmd.js'].concat(args), {
+  var result = cp.spawnSync('node', [tmp].concat(args), {
     cwd: cwd,
-    stdio: ['pipe', 'pipe', 'pipe'],
+    stdio: ['pipe', 'pipe', 'pipe', 'pipe'],
     input: log
   })
-  t.ok(/Error: tty stdio not supported/.test(result.stderr + ''))
 
+  t.is(result.output[3] + '', expected)
+  fs.unlinkSync(tmp)
   t.end()
 })
 
 test('generate unsupported stdio', function (t) {
   var tmp = path.join(__dirname, 'tmp')
   fs.writeFileSync(tmp, `
-    process._rawDebug('hi')
     var binding = process.binding
     process.binding = function (ns) {
       if (ns === 'tty_wrap') {
