@@ -28,7 +28,7 @@ $ pino-http-format -h
 
 ```sh
   
-    pino-http-format [-d] [-a] [-k] [tokens]
+    pino-http-format [-d] [-k] [-a]  [tokens]
 
     -d | --dest |       stderr | stdout (default) or Number. Specify output fd
     --destination
