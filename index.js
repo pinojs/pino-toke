@@ -19,7 +19,7 @@ function format (fmt, destination, ancillary) {
   var line = typeof fmt === 'function' ? fmt : compile(fmt)
   var transform = through(function (o, _, cb) {
     if (!(o.req && o.res && o.msg === 'request completed')) {
-      if (ancillary) ancillary.write(JSON.stringify(o))
+      if (ancillary) ancillary.write(JSON.stringify(o) + '\n')
       return void cb()
     }
     if (keep && ancillary) ancillary.write(JSON.stringify(o) + '\n')

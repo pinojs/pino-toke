@@ -355,7 +355,7 @@ test('filters non-http messages by default', function (t) {
 test('ancillary: passes non-http messages to alternative stream when specified', function (t) {
   var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
   var logger = format(':pid', through(), through(function (line) {
-    t.is(line.toString() + '\n', msg)
+    t.is(line.toString() + '', msg)
     t.end()
   }))
   logger.write(msg)
@@ -373,7 +373,7 @@ test('keep: passes all messages to alternative stream', function (t) {
     count++
 
     if (count === 1) {
-      t.is(line.toString() + '\n', msg)
+      t.is(line.toString() + '', msg)
     }
     if (count === 2) {
     }

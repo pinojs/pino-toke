@@ -159,7 +159,7 @@ test('-a', function (t) {
   })
 
   t.is(result.output[1] + '', expected)
-  t.is(result.output[2] + '\n', msg)
+  t.is(result.output[2] + '', msg)
 
   t.end()
 })
@@ -175,7 +175,7 @@ test('--ancillary', function (t) {
   })
 
   t.is(result.output[1] + '', expected)
-  t.is(result.output[2] + '\n', msg)
+  t.is(result.output[2] + '', msg)
 
   t.end()
 })
@@ -191,7 +191,7 @@ test('-a with custom fd', function (t) {
   })
 
   t.is(result.output[1] + '', expected)
-  t.is(result.output[3] + '\n', msg)
+  t.is(result.output[3] + '', msg)
 
   t.end()
 })
@@ -207,7 +207,7 @@ test('-a 1 -d 2', function (t) {
   })
 
   t.is(result.output[2] + '', expected)
-  t.is(result.output[1] + '\n', msg)
+  t.is(result.output[1] + '', msg)
 
   t.end()
 })
@@ -223,7 +223,7 @@ test('-a stderr', function (t) {
   })
 
   t.is(result.output[1] + '', expected)
-  t.is(result.output[2] + '\n', msg)
+  t.is(result.output[2] + '', msg)
 
   t.end()
 })
@@ -239,7 +239,7 @@ test('-a stdout -d 2', function (t) {
   })
 
   t.is(result.output[2] + '', expected)
-  t.is(result.output[1] + '\n', msg)
+  t.is(result.output[1] + '', msg)
 
   t.end()
 })
@@ -253,7 +253,7 @@ test('-a 1 -d 1', function (t) {
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log + msg
   })
-  t.is(result.output[1] + '\n', expected + msg)
+  t.is(result.output[1] + '', expected + msg)
 
   t.end()
 })
@@ -269,7 +269,7 @@ test('-k -a 2', function (t) {
   })
 
   t.is(result.output[1] + '', expected)
-  t.is(result.output[2] + '\n', log + msg)
+  t.is(result.output[2] + '', log + msg)
 
   t.end()
 })
