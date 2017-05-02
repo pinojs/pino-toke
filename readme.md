@@ -1,4 +1,4 @@
-# pino-http-format &nbsp; &nbsp;[![stability][0]][1]
+# pino-toke &nbsp; &nbsp;[![stability][0]][1]
 [![npm version][2]][3] [![build status][4]][5] [![test coverage][6]][7] [![dependencies freshness][14]][15] [![js-standard-style][10]][11]
 
 Transform Pino HTTP log messages with a format string
@@ -19,16 +19,16 @@ format string as used in the [`morgan`](http://npm.im/morgan) logger.
 ## Usage
 
 ```sh
-$ npm install -g pino-http-format
+$ npm install -g pino-toke
 ```
 
 ```sh
-$ pino-http-format -h
+$ pino-toke -h
 ```
 
 ```sh
   
-    pino-http-format [-d] [-k] [-a]  [tokens]
+    pino-toke [-d] [-k] [-a]  [tokens]
 
     -d | --dest |       stderr | stdout (default) or Number. Specify output fd
     --destination
@@ -46,10 +46,10 @@ $ pino-http-format -h
 ### Example
 
 Spin up a server that uses a pino http logger (see the [Supports](#supports) section),
-pipe it to `pino-http-format` and desribe the format in tokenized form
+pipe it to `pino-toke` and desribe the format in tokenized form
 
 ```sh
-$ node server | pino-http-format :method :url :status :res[content-length] - :response-time ms
+$ node server | pino-toke :method :url :status :res[content-length] - :response-time ms
 ```
 
 ## Destination (`-d`)
@@ -57,13 +57,13 @@ $ node server | pino-http-format :method :url :status :res[content-length] - :re
 By default, logs are output to STDOUT, however we can set the `-d` (alias, `--dest`, `--destination`), flag to a a `stderr`, or a number (`1` for stdout, `2` for stderr, `3` or more for custom file descriptor):
 
 ```sh
-$ node server | pino-http-format -d stderr :status :get :url - :response-time ms
+$ node server | pino-toke -d stderr :status :get :url - :response-time ms
 ```
 
 The above is equivalent to:
 
 ```sh
-$ node server | pino-http-format -d 2 :status :get :url - :response-time ms
+$ node server | pino-toke -d 2 :status :get :url - :response-time ms
 ```
 
 We can also direct formatted log output to custom file descriptors, but we *must*
@@ -71,7 +71,7 @@ use bash redirection (in some form) from that file descriptor, otherwise the pro
 will most likely immediately crash (this is to do with how unix works).
 
 ```sh
-$ node server | pino-http-format -d 8 :status :get :url - :response-time ms 8> ./http-logs
+$ node server | pino-toke -d 8 :status :get :url - :response-time ms 8> ./http-logs
 ```
 
 ## Ancillary Output (`-a`)
@@ -86,26 +86,26 @@ The following will write reformatted HTTP logs to STDOUT and original JSON logs
 which *are not* HTTP logs to STDERR.
 
 ```sh
-$ node server | pino-http-format -a 2 :status :get :url - :response-time ms
+$ node server | pino-toke -a 2 :status :get :url - :response-time ms
 ```
 
 The following achieves the reverse effect:
 
 ```sh
-$ node server | pino-http-format -d 2 -a 1 :status :get :url - :response-time ms
+$ node server | pino-toke -d 2 -a 1 :status :get :url - :response-time ms
 ```
 
 The next example creates an custom file descriptor, and redirects output from that
 descriptor to a `./logs` file, whilst outputting formatted HTTP logs to STDOUT
 
 ```sh
-$ node server | pino-http-format  -a 4 :status :get :url - :response-time ms 4> ./logs
+$ node server | pino-toke  -a 4 :status :get :url - :response-time ms 4> ./logs
 ```
 
 This will sends formatted HTTP logs to the `./http-logs` file and pipe all other log messages to [`pino-elasticsearch`](http://npm.im/pino-elasticsearch)
 
 ```sh
-$ node server | pino-http-format -a 1 -d 4 :status :get :url - :response-time ms 4> ./http-logs | pino-elasticsearch
+$ node server | pino-toke -a 1 -d 4 :status :get :url - :response-time ms 4> ./http-logs | pino-elasticsearch
 ```
 
 ## Keep Original HTTP JSON Logs (`-k`)
@@ -118,13 +118,13 @@ The following will pipe all formatted logs to the `4` file descriptor which is r
 while *all* original JSON logs (instead of non-HTTP logs) are written to STDOUT.
 
 ```
-$ node server | pino-http-format -k -a 1 -d 4 :status :get :url - :response-time ms 4> ./http-logs 
+$ node server | pino-toke -k -a 1 -d 4 :status :get :url - :response-time ms 4> ./http-logs 
 ```
 
 
 ### Tokens
 
-`pino-http-format` supports all the same tokens found in the [`morgan`](http://npm.im/morgan) 
+`pino-toke` supports all the same tokens found in the [`morgan`](http://npm.im/morgan) 
 logger, with additional tokens based on the information we have in the pino HTTP log format.
 
 Tokens supported in addition to `morgan`'s token set are `:id`, `:pid`, `:level`,
@@ -216,11 +216,11 @@ Given header in the response
 
 ### Programmatic Usage
 
-#### format(fmt, destination, ancillary)
+#### toke(format, destination, ancillary)
 
 Returns a stream that we write Pino JSON logs to.
 
-The `fmt` parameter is required and can be a format string, a function or 
+The `format` parameter is required and can be a format string, a function or 
 an object. 
 
 A format string represents how a log line should be written out, using a "tokens",
@@ -229,10 +229,10 @@ can also contain normal text, which will appear between the tokens.
 Unrecognized tokens will appear in the output as normal text.
 
 ```js
-format(':method :url :status')
+toke(':method :url :status')
 ```
 
-If `fmt` is a function it should have the signature `(o, tokens)`. 
+If `format` is a function it should have the signature `(o, tokens)`. 
 The `tokens` parameter is an object of mapping functions, which pick 
 properties from the `o` object (see `./tokens.js` file. 
 The `o` parameter will be an object representation each HTTP JSON log line.
@@ -240,26 +240,26 @@ It's return value will be the contents of the transformed log line.
 
 
 ```
-format((o, tokens) => 'some log line')
+toke((o, tokens) => 'some log line')
 ```
 
-If `fmt` is an object, should have a property called `fmt` that contains the
-`fmt` string or a function.
+If `format` is an object, should have a property called `format` that contains the
+`format` string or a function.
 
  ```js
-format({fmt: ':method :url :status'})
+toke({format: ':method :url :status'})
 ```
 
  ```js
-format({fmt: (o, tokens) => 'some log line'})
+toke({format: (o, tokens) => 'some log line'})
 ```
 
 
-When `fmt` is an object, additional options can be provided. 
+When `format` is an object, additional options can be provided. 
 There's only one valid option, `keep`:
 
  ```js
-format({fmt: ':method :url :status', keep: true})
+toke({format: ':method :url :status', keep: true})
 ```
 
 When `keep` is `true` all JSON log messages will be written verbatim 
@@ -274,10 +274,9 @@ the reformatted log messages. It defaults to `process.stdout`.
 
 The optional `ancillary` parameter is a writable stream that 
 
+#### toke.compile(format)
 
-#### format.compile(fmt)
-
-Compile a format string (`fmt`) in a function. The returned function 
+Compile a format string (`format`) in a function. The returned function 
 takes a `tokens` and `o` parameters. The `tokens` parameter is an object
 of mapping functions, which pick properties from the `o` object. The
 `o` parameter is an object representation of a pino JSON log line.
@@ -297,18 +296,18 @@ MIT
 
 [0]: https://img.shields.io/badge/stability-stable-green.svg?style=flat-square
 [1]: https://nodejs.org/api/documentation.html#documentation_stability_index
-[2]: https://img.shields.io/npm/v/pino-http-format.svg?style=flat-square
-[3]: https://npmjs.org/package/pino-http-format
-[4]: https://img.shields.io/travis/pinojs/pino-http-format/master.svg?style=flat-square
-[5]: https://travis-ci.org/pinojs/pino-http-format
-[6]: https://img.shields.io/codecov/c/github/pinojs/pino-http-format/master.svg?style=flat-square
-[7]: https://codecov.io/github/pinojs/pino-http-format
-[8]: http://img.shields.io/npm/dm/pino-http-format.svg?style=flat-square
-[9]: https://npmjs.org/package/pino-http-format
+[2]: https://img.shields.io/npm/v/pino-toke.svg?style=flat-square
+[3]: https://npmjs.org/package/pino-toke
+[4]: https://img.shields.io/travis/pinojs/pino-toke/master.svg?style=flat-square
+[5]: https://travis-ci.org/pinojs/pino-toke
+[6]: https://img.shields.io/codecov/c/github/pinojs/pino-toke/master.svg?style=flat-square
+[7]: https://codecov.io/github/pinojs/pino-toke
+[8]: http://img.shields.io/npm/dm/pino-toke.svg?style=flat-square
+[9]: https://npmjs.org/package/pino-toke
 [10]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [11]: https://github.com/feross/standard
 [12]: https://npm.im/debug
 [13]: https://npm.im/github/pinojs/pino
-[14]: https://david-dm.org/pinojs/pino-http-format/status.svg
-[15]: https://david-dm.org/pinojs/pino-http-format
+[14]: https://david-dm.org/pinojs/pino-toke/status.svg
+[15]: https://david-dm.org/pinojs/pino-toke
 

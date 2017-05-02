@@ -1,5 +1,5 @@
   
-    pino-http-format [-d] [-k] [-a] [tokens]
+    pino-toke [-d] [-k] [-a] [tokens]
 
     -d | --dest |       stderr | stdout (default) or Number. Specify output fd
     --destination

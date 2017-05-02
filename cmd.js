@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var format = require('./')
+var toke = require('./')
 var stdio = require('./stdio')
 var args = require('minimist')(process.argv.slice(2), {alias: {
   h: ['help'],
@@ -12,7 +12,7 @@ if (args.h) {
   console.log(require('fs').readFileSync(require('path').join(__dirname, 'usage.txt')) + '')
   process.exit(0)
 }
-var fmt = args._.join(' ')
+var format = args._.join(' ')
 var destination
 var ancillary
 
@@ -30,7 +30,7 @@ if (args.a === 1) ancillary = process.stdout
 else if (args.a === 2) ancillary = process.stderr
 else if (args.a !== undefined) ancillary = stdio(args.a)
 
-if (args.k) fmt = {fmt: fmt, keep: true}
+if (args.k) format = {format: format, keep: true}
 
-process.stdin.pipe(format(fmt, destination, ancillary))
+process.stdin.pipe(toke(format, destination, ancillary))
 

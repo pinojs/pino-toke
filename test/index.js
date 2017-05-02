@@ -1,6 +1,6 @@
 'use strict'
 
-var format = require('../')
+var toke = require('../')
 var through = require('through2')
 var test = require('tap').test
 
@@ -8,7 +8,7 @@ var log = '{"pid":13961,"hostname":"MacBook-Pro-4","level":30,"time":14691224922
 
 test(':id', function (t) {
   var expected = '8\n'
-  var logger = format(':id', through(function (line) {
+  var logger = toke(':id', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -17,7 +17,7 @@ test(':id', function (t) {
 
 test(':pid', function (t) {
   var expected = '13961\n'
-  var logger = format(':pid', through(function (line) {
+  var logger = toke(':pid', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -26,7 +26,7 @@ test(':pid', function (t) {
 
 test(':hostname', function (t) {
   var expected = 'MacBook-Pro-4\n'
-  var logger = format(':hostname', through(function (line) {
+  var logger = toke(':hostname', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -35,7 +35,7 @@ test(':hostname', function (t) {
 
 test(':level', function (t) {
   var expected = '30\n'
-  var logger = format(':level', through(function (line) {
+  var logger = toke(':level', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -44,7 +44,7 @@ test(':level', function (t) {
 
 test(':url', function (t) {
   var expected = '/api/activity/component\n'
-  var logger = format(':url', through(function (line) {
+  var logger = toke(':url', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -53,7 +53,7 @@ test(':url', function (t) {
 
 test(':time', function (t) {
   var expected = '1469122492244\n'
-  var logger = format(':time', through(function (line) {
+  var logger = toke(':time', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -62,7 +62,7 @@ test(':time', function (t) {
 
 test(':time[ms]', function (t) {
   var expected = '1469122492244\n'
-  var logger = format(':time[ms]', through(function (line) {
+  var logger = toke(':time[ms]', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -71,7 +71,7 @@ test(':time[ms]', function (t) {
 
 test(':time[iso]', function (t) {
   var expected = '17:34:52\n'
-  var logger = format(':time[iso]', through(function (line) {
+  var logger = toke(':time[iso]', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -80,7 +80,7 @@ test(':time[iso]', function (t) {
 
 test(':method', function (t) {
   var expected = 'GET\n'
-  var logger = format(':method', through(function (line) {
+  var logger = toke(':method', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -89,7 +89,7 @@ test(':method', function (t) {
 
 test(':response-time', function (t) {
   var expected = '17\n'
-  var logger = format(':response-time', through(function (line) {
+  var logger = toke(':response-time', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -98,7 +98,7 @@ test(':response-time', function (t) {
 
 test(':date', function (t) {
   var expected = 'Thu, 21 Jul 2016 17:34:52 GMT\n'
-  var logger = format(':date', through(function (line) {
+  var logger = toke(':date', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -107,7 +107,7 @@ test(':date', function (t) {
 
 test(':date[web]', function (t) {
   var expected = 'Thu, 21 Jul 2016 17:34:52 GMT\n'
-  var logger = format(':date', through(function (line) {
+  var logger = toke(':date', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -116,7 +116,7 @@ test(':date[web]', function (t) {
 
 test(':date[iso]', function (t) {
   var expected = '2016-07-21T17:34:52.244Z\n'
-  var logger = format(':date[iso]', through(function (line) {
+  var logger = toke(':date[iso]', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -128,7 +128,7 @@ test(':date[clf]', function (t) {
   var getTimezoneOffset = Date.prototype.getTimezoneOffset
   Date.prototype.getTimezoneOffset = function () { return 0 }
   var expected = '21/Jul/2016:17:34:52 +0000\n'
-  var logger = format(':date[clf]', through(function (line) {
+  var logger = toke(':date[clf]', through(function (line) {
     t.is(line.toString(), expected)
     Date.prototype.getTimezoneOffset = getTimezoneOffset
     t.end()
@@ -138,7 +138,7 @@ test(':date[clf]', function (t) {
 
 test(':status', function (t) {
   var expected = '200\n'
-  var logger = format(':status', through(function (line) {
+  var logger = toke(':status', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -147,7 +147,7 @@ test(':status', function (t) {
 
 test(':referrer', function (t) {
   var expected = 'http://localhost:20000/\n'
-  var logger = format(':referrer', through(function (line) {
+  var logger = toke(':referrer', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -156,7 +156,7 @@ test(':referrer', function (t) {
 
 test(':referrer (normalizing)', function (t) {
   var expected = 'http://localhost:20000/\n'
-  var logger = format(':referrer', through(function (line) {
+  var logger = toke(':referrer', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -165,7 +165,7 @@ test(':referrer (normalizing)', function (t) {
 
 test(':remote-addr', function (t) {
   var expected = '127.0.0.1\n'
-  var logger = format(':remote-addr', through(function (line) {
+  var logger = toke(':remote-addr', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -174,7 +174,7 @@ test(':remote-addr', function (t) {
 
 test(':remote-user', function (t) {
   var expected = 'Aladdin\n'
-  var logger = format(':remote-user', through(function (line) {
+  var logger = toke(':remote-user', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -183,7 +183,7 @@ test(':remote-user', function (t) {
 
 test(':remote-user without authorization header', function (t) {
   var expected = '-\n'
-  var logger = format(':remote-user', through(function (line) {
+  var logger = toke(':remote-user', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -192,7 +192,7 @@ test(':remote-user without authorization header', function (t) {
 
 test(':http-version', function (t) {
   var expected = '1.1\n'
-  var logger = format(':http-version', through(function (line) {
+  var logger = toke(':http-version', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -201,7 +201,7 @@ test(':http-version', function (t) {
 
 test(':user-agent', function (t) {
   var expected = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36\n'
-  var logger = format(':user-agent', through(function (line) {
+  var logger = toke(':user-agent', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -210,7 +210,7 @@ test(':user-agent', function (t) {
 
 test(':req[<header>]', function (t) {
   var expected = 'keep-alive\n'
-  var logger = format(':req[connection]', through(function (line) {
+  var logger = toke(':req[connection]', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -219,7 +219,7 @@ test(':req[<header>]', function (t) {
 
 test(':req[<invalid header>]', function (t) {
   var expected = '-\n'
-  var logger = format(':req[foo]', through(function (line) {
+  var logger = toke(':req[foo]', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -228,7 +228,7 @@ test(':req[<invalid header>]', function (t) {
 
 test(':req without header', function (t) {
   var expected = '-\n'
-  var logger = format(':req', through(function (line) {
+  var logger = toke(':req', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -237,7 +237,7 @@ test(':req without header', function (t) {
 
 test(':res[<header>]', function (t) {
   var expected = 'application/json; charset=utf-8\n'
-  var logger = format(':res[content-type]', through(function (line) {
+  var logger = toke(':res[content-type]', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -246,7 +246,7 @@ test(':res[<header>]', function (t) {
 
 test(':res[<invalid header>]', function (t) {
   var expected = '-\n'
-  var logger = format(':res[foo]', through(function (line) {
+  var logger = toke(':res[foo]', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -255,7 +255,7 @@ test(':res[<invalid header>]', function (t) {
 
 test(':res without header', function (t) {
   var expected = '-\n'
-  var logger = format(':res', through(function (line) {
+  var logger = toke(':res', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -264,7 +264,7 @@ test(':res without header', function (t) {
 
 test(':invalid-token', function (t) {
   var expected = ':invalid-token\n'
-  var logger = format(':invalid-token', through(function (line) {
+  var logger = toke(':invalid-token', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -273,7 +273,7 @@ test(':invalid-token', function (t) {
 
 test(':invalid-token[with-arg]', function (t) {
   var expected = ':invalid-token[with-arg]\n'
-  var logger = format(':invalid-token[with-arg]', through(function (line) {
+  var logger = toke(':invalid-token[with-arg]', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -282,7 +282,7 @@ test(':invalid-token[with-arg]', function (t) {
 
 test('composition/interpolation', function (t) {
   var expected = 'MacBook-Pro-4 13961 GET /api/activity/component 200 (17 ms) application/json; charset=utf-8 _ga=GA1.1.204420087.1444842476\n'
-  var logger = format(':hostname :pid :method :url :status (:response-time ms) :res[content-type] :req[cookie]', through(function (line) {
+  var logger = toke(':hostname :pid :method :url :status (:response-time ms) :res[content-type] :req[cookie]', through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -295,7 +295,7 @@ test('outputs newline when stream ends', function (t) {
     t.is(line.toString(), expected)
     t.end()
   })
-  format(':pid', stream)
+  toke(':pid', stream)
   stream.end()
 })
 
@@ -305,13 +305,13 @@ test('outputs error message when error in pipeline', function (t) {
     t.is(line.toString(), expected)
     t.end()
   })
-  format(':pid', stream)
+  toke(':pid', stream)
   stream.destroy()
 })
 
 test('logs to process.stdout by default', function (t) {
   var expected = '13961\n'
-  var logger = format(':pid')
+  var logger = toke(':pid')
   var write = process.stdout.write
   process.stdout.write = function (chunk, enc, cb) {
     process.stdout.write = write
@@ -327,13 +327,13 @@ test('outputs error message when error in pipeline', function (t) {
     t.is(line.toString(), expected)
     t.end()
   })
-  format(':pid', stream)
+  toke(':pid', stream)
   stream.destroy()
 })
 
-test('fmt as object', function (t) {
+test('format as object', function (t) {
   var expected = '13961\n'
-  var logger = format({fmt: ':pid'}, through(function (line) {
+  var logger = toke({format: ':pid'}, through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -341,7 +341,7 @@ test('fmt as object', function (t) {
 })
 
 test('filters non-http messages by default', function (t) {
-  var logger = format(':pid', through(function (line) {
+  var logger = toke(':pid', through(function (line) {
     t.fail()
     t.end()
   }))
@@ -354,7 +354,7 @@ test('filters non-http messages by default', function (t) {
 
 test('ancillary: passes non-http messages to alternative stream when specified', function (t) {
   var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
-  var logger = format(':pid', through(), through(function (line) {
+  var logger = toke(':pid', through(), through(function (line) {
     t.is(line.toString() + '', msg)
     t.end()
   }))
@@ -365,7 +365,7 @@ test('keep: passes all messages to alternative stream', function (t) {
   var expected = '13961\n'
   var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
   var count = 0
-  var logger = format({fmt: ':pid', keep: true}, through(function (line, _, cb) {
+  var logger = toke({format: ':pid', keep: true}, through(function (line, _, cb) {
     t.is(line.toString(), expected)
     t.end()
     cb()
@@ -386,7 +386,7 @@ test('keep: passes all messages to alternative stream', function (t) {
 
 test('custom function', function (t) {
   var expected = log
-  var logger = format(function (tokens, o) {
+  var logger = toke(function (tokens, o) {
     return log
   }, through(function (line) {
     t.is(line.toString(), expected)
@@ -395,10 +395,10 @@ test('custom function', function (t) {
   logger.write(log)
 })
 
-test('format.compile', function (t) {
+test('toke.compile', function (t) {
   var expected = '13961\n'
-  var logger = format(function (tokens, o) {
-    return format.compile(':pid')(tokens, o)
+  var logger = toke(function (tokens, o) {
+    return toke.compile(':pid')(tokens, o)
   }, through(function (line) {
     t.is(line.toString(), expected)
     t.end()

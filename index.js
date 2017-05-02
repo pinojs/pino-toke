@@ -5,18 +5,18 @@ var through = require('through2').obj
 var pump = require('pump')
 var tokens = require('./tokens')
 
-module.exports = format
+module.exports = toke
 
-format.compile = compile
+toke.compile = compile
 
-function format (fmt, destination, ancillary) {
+function toke (format, destination, ancillary) {
   var printer = parse({strict: false})
-  if (typeof fmt === 'object') {
-    var opts = fmt
-    fmt = opts.fmt
+  if (typeof format === 'object') {
+    var opts = format
+    format = opts.format
     var keep = opts.keep
   }
-  var line = typeof fmt === 'function' ? fmt : compile(fmt)
+  var line = typeof format === 'function' ? format : compile(format)
   var transform = through(function (o, _, cb) {
     if (!(o.req && o.res && o.msg === 'request completed')) {
       if (ancillary) ancillary.write(JSON.stringify(o) + '\n')
@@ -33,8 +33,8 @@ function format (fmt, destination, ancillary) {
   return printer
 }
 
-function compile (fmt) {
-  return Function('tokens, o', 'return "' + fmt
+function compile (format) {
+  return Function('tokens, o', 'return "' + format
     .replace(/"/g, '\\"')
     .replace(/\[\]/g, '')
     .replace(/:([-\w]{2,})(?:\[([^\]]+)\])?/g, function (_, name, arg) {

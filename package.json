@@ -1,10 +1,10 @@
 {
-  "name": "pino-http-format",
-  "version": "1.0.5",
+  "name": "pino-toke",
+  "version": "1.0.0",
   "description": "Transform Pino HTTP log messages with a format string",
   "main": "index.js",
   "bin": {
-    "pino-http-format": "./cmd.js"
+    "pino-toke": "./cmd.js"
   },
   "scripts": {
     "test": "standard && tap -R=spec test/*.js",
@@ -28,11 +28,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pinojs/pino-http-format.git"
+    "url": "git+https://github.com/pinojs/pino-toke.git"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/pinojs/pino-http-format/issues"
+    "url": "https://github.com/pinojs/pino-toke/issues"
   },
-  "homepage": "https://github.com/pinojs/pino-http-format#readme"
+  "homepage": "https://github.com/pinojs/pino-toke#readme"
 }
