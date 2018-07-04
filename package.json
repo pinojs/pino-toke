@@ -7,7 +7,7 @@
     "pino-toke": "./cmd.js"
   },
   "scripts": {
-    "test": "standard && tap --timeout=0 -R=spec test/*.js",
+    "test": "standard && tap --timeout=0 test/*.js",
     "cov": "tap --cov test/*.js",
     "cov-ui": "tap --cov --coverage-report=html test/*.js",
     "ci": "standard && tap --timeout=0 --cov --coverage-report=lcov test/*.js"
