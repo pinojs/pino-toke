@@ -197,10 +197,6 @@ Remote address (IP)
 
 If Basic auth is being used, this will contain the user name provided via basic auth
 
-#### :http-version
-
-HTTP version (e.g. `1.0`, `1.1`)
-
 #### :user-agent
 
 Contents of the `User-Agent` header
