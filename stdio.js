@@ -1,9 +1,10 @@
 'use strict'
 
-var ttyWrap = process.binding('tty_wrap')
-var tty = require('tty')
-var fs = require('fs')
-var net = require('net')
+const ttyWrap = process.binding('tty_wrap')
+const tty = require('tty')
+const net = require('net')
+const { Writable } = require('stream')
+const { closeSync, writeSync } = require('fs')
 
 module.exports = stdio
 
@@ -15,7 +16,7 @@ function stdio (fd) {
       stream._type = 'tty'
       break
     case 'FILE':
-      stream = new fs.SyncWriteStream(fd, { autoClose: false })
+      stream = new SyncWriteStream(fd, { autoClose: false })
       stream._type = 'fs'
       break
     case 'PIPE':
@@ -36,4 +37,30 @@ function stdio (fd) {
   stream._isStdio = true
 
   return stream
+}
+
+class SyncWriteStream extends Writable {
+  constructor (fd, opts = {}) {
+    super({ autoDestroy: true })
+    const { autoClose = true } = opts
+    this.fd = fd
+    this.readable = false
+    this.autoClose = autoClose
+  }
+  _write (chunk, _, cb) {
+    writeSync(this.fd, chunk, 0, chunk.length)
+    cb()
+  }
+  _destroy (err, cb) {
+    if (this.fd === null) {
+      cb(err)
+      return
+    }
+    if (this.autoClose) closeSync(this.fd)
+    this.fd = null
+    cb(err)
+  }
+  destroySoon (err, cb) {
+    this._destroy(err, cb)
+  }
 }

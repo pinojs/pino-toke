@@ -333,7 +333,7 @@ test('outputs error message when error in pipeline', function (t) {
 
 test('format as object', function (t) {
   var expected = '13961\n'
-  var logger = toke({format: ':pid'}, through(function (line) {
+  var logger = toke({ format: ':pid' }, through(function (line) {
     t.is(line.toString(), expected)
     t.end()
   }))
@@ -365,7 +365,7 @@ test('keep: passes all messages to alternative stream', function (t) {
   var expected = '13961\n'
   var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
   var count = 0
-  var logger = toke({format: ':pid', keep: true}, through(function (line, _, cb) {
+  var logger = toke({ format: ':pid', keep: true }, through(function (line, _, cb) {
     t.is(line.toString(), expected)
     t.end()
     cb()
@@ -405,4 +405,3 @@ test('toke.compile', function (t) {
   }))
   logger.write(log)
 })
-

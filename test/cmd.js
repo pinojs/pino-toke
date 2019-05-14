@@ -356,4 +356,3 @@ test('generate unsupported stdio', function (t) {
   fs.unlinkSync(tmp)
   t.end()
 })
-

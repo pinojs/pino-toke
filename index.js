@@ -10,7 +10,7 @@ module.exports = toke
 toke.compile = compile
 
 function toke (format, destination, ancillary) {
-  var printer = parse({strict: false})
+  var printer = parse({ strict: false })
   if (typeof format === 'object') {
     var opts = format
     format = opts.format
