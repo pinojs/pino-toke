@@ -1,6 +1,6 @@
 {
   "name": "pino-toke",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Transform Pino HTTP log messages with a format string",
   "main": "index.js",
   "bin": {
