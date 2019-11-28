@@ -67,6 +67,6 @@ module.exports = {
     o._lastResHeaders = headers
     var key = headers[field]
     if (!key) return
-    return key.trim()
+    return key
   }
 }
