@@ -54,9 +54,6 @@ module.exports = {
     if (!user) return
     return user.name
   },
-  'http-version': function (o) {
-    return o.res.header.substr(0, 8).split('/')[1]
-  },
   'user-agent': function (o) {
     return o.req.headers['user-agent']
   },
@@ -66,10 +63,10 @@ module.exports = {
   },
   res: function (o, field) {
     if (!field) return
-    var headers = o._lastResHeaders || o.res.header.split(/\\r\\n|\r\n|:/)
+    var headers = o._lastResHeaders || o.res.headers
     o._lastResHeaders = headers
-    var index = headers.indexOf(field) + 1
-    if (!index) return
-    return headers[index].trim()
+    var key = headers[field]
+    if (!key) return
+    return key
   }
 }
