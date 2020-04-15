@@ -15,16 +15,16 @@
   "author": "David Mark Clements",
   "license": "MIT",
   "devDependencies": {
-    "standard": "^7.1.2",
-    "tap": "^12.0.1"
+    "standard": "^14.0.0",
+    "tap": "^14.0.0"
   },
   "dependencies": {
-    "basic-auth": "^1.1.0",
-    "clf-date": "0.0.4",
+    "basic-auth": "^2.0.1",
+    "clf-date": "0.1.0",
     "minimist": "^1.2.0",
-    "ndjson": "^1.4.3",
-    "pump": "^1.0.2",
-    "through2": "^2.0.1"
+    "readable-stream": "^3.6.0",
+    "sonic-boom": "^1.0.1",
+    "through2": "^3.0.0"
   },
   "repository": {
     "type": "git",
