@@ -286,12 +286,11 @@ test('outputs newline when stream ends', function (t) {
     t.is(line.toString(), expected)
     t.end()
   })
-  toke(':pid', stream)
-  stream.end()
+  toke(':pid', stream).end()
 })
 
 test('outputs error message when error in pipeline', function (t) {
-  var expected = 'premature close\n'
+  var expected = 'Premature close\n'
   var stream = through(function (line) {
     t.is(line.toString(), expected)
     t.end()
@@ -313,7 +312,7 @@ test('logs to process.stdout by default', function (t) {
 })
 
 test('outputs error message when error in pipeline', function (t) {
-  var expected = 'premature close\n'
+  var expected = 'Premature close\n'
   var stream = through(function (line) {
     t.is(line.toString(), expected)
     t.end()
