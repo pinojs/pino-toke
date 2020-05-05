@@ -16,11 +16,12 @@
   "license": "MIT",
   "devDependencies": {
     "standard": "^14.0.0",
-    "tap": "^14.0.0"
+    "tap": "^14.0.0",
+    "timeshift-js": "^1.1.1"
   },
   "dependencies": {
     "basic-auth": "^2.0.1",
-    "clf-date": "0.1.0",
+    "clf-date": "0.2.0",
     "minimist": "^1.2.0",
     "readable-stream": "^3.6.0",
     "sonic-boom": "^1.0.1",
