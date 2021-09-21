@@ -3,7 +3,6 @@
 [![stability][0]][1]
 [![npm version][2]][3]
 [![Build & Test](https://github.com/pino/pino-toke/actions/workflows/ci.yml/badge.svg)](https://github.com/pino/pino-toke/actions/workflows/ci.yml)
-[![test coverage][6]][7]
 [![dependencies freshness][14]][15]
 [![js-standard-style][10]][11]
 
@@ -300,8 +299,6 @@ MIT
 [1]: https://nodejs.org/api/documentation.html#documentation_stability_index
 [2]: https://img.shields.io/npm/v/pino-toke.svg?style=flat-square
 [3]: https://npmjs.org/package/pino-toke
-[6]: https://img.shields.io/codecov/c/github/pinojs/pino-toke/master.svg?style=flat-square
-[7]: https://codecov.io/github/pinojs/pino-toke
 [8]: http://img.shields.io/npm/dm/pino-toke.svg?style=flat-square
 [9]: https://npmjs.org/package/pino-toke
 [10]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
