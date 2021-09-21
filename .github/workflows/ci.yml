@@ -25,14 +25,6 @@ jobs:
         run: npm i
       - name: Tests
         run: npm run ci
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
-        if: ${{ matrix.node-version == 16 }}
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-          flags: unittests
-          verbose: true
 
   automerge:
     needs: test
