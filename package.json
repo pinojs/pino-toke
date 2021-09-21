@@ -7,16 +7,15 @@
     "pino-toke": "./cmd.js"
   },
   "scripts": {
+    "lint:fix": "standard --fix",
     "test": "standard && tap --timeout=0 test/*.js",
-    "cov": "tap --cov test/*.js",
-    "cov-ui": "tap --cov --coverage-report=html test/*.js",
     "ci": "standard && tap --timeout=0 --cov --coverage-report=lcov test/*.js"
   },
   "author": "David Mark Clements",
   "license": "MIT",
   "devDependencies": {
-    "standard": "^14.0.0",
-    "tap": "^14.0.0",
+    "standard": "^16.0.3",
+    "tap": "^15.0.9",
     "timeshift-js": "^1.1.1"
   },
   "dependencies": {
@@ -24,9 +23,9 @@
     "clf-date": "0.2.0",
     "minimist": "^1.2.0",
     "readable-stream": "^3.6.0",
-    "sonic-boom": "^1.0.1",
+    "sonic-boom": "^2.2.3",
     "split2": "^3.1.1",
-    "through2": "^3.0.0"
+    "through2": "^3.0.2"
   },
   "repository": {
     "type": "git",

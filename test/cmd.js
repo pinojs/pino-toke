@@ -1,17 +1,17 @@
 'use strict'
 
-var cp = require('child_process')
-var path = require('path')
-var fs = require('fs')
-var test = require('tap').test
+const cp = require('child_process')
+const path = require('path')
+const fs = require('fs')
+const test = require('tap').test
 
-var log = '{"pid":13961,"hostname":"MacBook-Pro-4","level":30,"time":1469122492244,"msg":"request completed","res":{"statusCode":200,"headers":{"content-type":"application/json; charset=utf-8","cache-control":"no-cache","vary":"accept-encoding","content-encoding":"gzip","date":"Thu, 21 Jul 2016 17:34:52 GMT","connection":"close","transfer-encoding":"chunked"}},"responseTime":17,"req":{"id":8,"method":"GET","url":"/api/activity/component","headers":{"host":"localhost:20000","connection":"keep-alive","cache-control":"max-age=0","authorization":"Basic QWxhZGRpbjpPcGVuU2VzYW1l","accept":"application/json","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36","referer":"http://localhost:20000/","accept-encoding":"gzip, deflate, sdch","accept-language":"en-US,en;q=0.8,de;q=0.6","cookie":"_ga=GA1.1.204420087.1444842476"},"remoteAddress":"127.0.0.1","remotePort":61543},"v":1}\n'
-var cwd = path.resolve(__dirname, '..')
+const log = '{"pid":13961,"hostname":"MacBook-Pro-4","level":30,"time":1469122492244,"msg":"request completed","res":{"statusCode":200,"headers":{"content-type":"application/json; charset=utf-8","cache-control":"no-cache","vary":"accept-encoding","content-encoding":"gzip","date":"Thu, 21 Jul 2016 17:34:52 GMT","connection":"close","transfer-encoding":"chunked"}},"responseTime":17,"req":{"id":8,"method":"GET","url":"/api/activity/component","headers":{"host":"localhost:20000","connection":"keep-alive","cache-control":"max-age=0","authorization":"Basic QWxhZGRpbjpPcGVuU2VzYW1l","accept":"application/json","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36","referer":"http://localhost:20000/","accept-encoding":"gzip, deflate, sdch","accept-language":"en-US,en;q=0.8,de;q=0.6","cookie":"_ga=GA1.1.204420087.1444842476"},"remoteAddress":"127.0.0.1","remotePort":61543},"v":1}\n'
+const cwd = path.resolve(__dirname, '..')
 
 test('-h', function (t) {
-  var expected = fs.readFileSync(path.join(cwd, 'usage.txt')) + '\n'
-  var args = ['-h']
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = fs.readFileSync(path.join(cwd, 'usage.txt')) + '\n'
+  const args = ['-h']
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log
@@ -23,9 +23,9 @@ test('-h', function (t) {
 })
 
 test('--help', function (t) {
-  var expected = fs.readFileSync(path.join(cwd, 'usage.txt')) + '\n'
-  var args = ['--help']
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = fs.readFileSync(path.join(cwd, 'usage.txt')) + '\n'
+  const args = ['--help']
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log
@@ -37,9 +37,9 @@ test('--help', function (t) {
 })
 
 test('tokens', function (t) {
-  var expected = 'MacBook-Pro-4 13961 GET /api/activity/component 200 (17 ms) application/json; charset=utf-8 _ga=GA1.1.204420087.1444842476\n\n'
-  var args = [':hostname', ':pid', ':method', ':url', ':status', '(:response-time', 'ms)', ':res[content-type]', ':req[cookie]']
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = 'MacBook-Pro-4 13961 GET /api/activity/component 200 (17 ms) application/json; charset=utf-8 _ga=GA1.1.204420087.1444842476\n\n'
+  const args = [':hostname', ':pid', ':method', ':url', ':status', '(:response-time', 'ms)', ':res[content-type]', ':req[cookie]']
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log
@@ -51,9 +51,9 @@ test('tokens', function (t) {
 })
 
 test('-d', function (t) {
-  var expected = '13961\n\n'
-  var args = ['-d', '2', ':pid']
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['-d', '2', ':pid']
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log
@@ -65,9 +65,9 @@ test('-d', function (t) {
 })
 
 test('--destination', function (t) {
-  var expected = '13961\n\n'
-  var args = ['--destination', '2', ':pid']
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['--destination', '2', ':pid']
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log
@@ -79,9 +79,9 @@ test('--destination', function (t) {
 })
 
 test('--dest', function (t) {
-  var expected = '13961\n\n'
-  var args = ['--dest', '2', ':pid']
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['--dest', '2', ':pid']
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log
@@ -93,9 +93,9 @@ test('--dest', function (t) {
 })
 
 test('-d with custom fd', function (t) {
-  var expected = '13961\n'
-  var args = ['-d', '3', ':pid']
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n'
+  const args = ['-d', '3', ':pid']
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe', 'pipe'],
     input: log
@@ -107,9 +107,9 @@ test('-d with custom fd', function (t) {
 })
 
 test('-d 1', function (t) {
-  var expected = '13961\n\n'
-  var args = ['-d', '1', ':pid']
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['-d', '1', ':pid']
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log
@@ -121,9 +121,9 @@ test('-d 1', function (t) {
 })
 
 test('-d stderr', function (t) {
-  var expected = '13961\n\n'
-  var args = ['-d', 'stderr', ':pid']
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['-d', 'stderr', ':pid']
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log
@@ -135,9 +135,9 @@ test('-d stderr', function (t) {
 })
 
 test('-d stdout', function (t) {
-  var expected = '13961\n\n'
-  var args = ['-d', 'stdout', ':pid']
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['-d', 'stdout', ':pid']
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log
@@ -149,10 +149,10 @@ test('-d stdout', function (t) {
 })
 
 test('-a', function (t) {
-  var expected = '13961\n\n'
-  var args = ['-a', '2', ':pid']
-  var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['-a', '2', ':pid']
+  const msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log + msg
@@ -165,10 +165,10 @@ test('-a', function (t) {
 })
 
 test('--ancillary', function (t) {
-  var expected = '13961\n\n'
-  var args = ['--ancillary', '2', ':pid']
-  var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['--ancillary', '2', ':pid']
+  const msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log + msg
@@ -181,10 +181,10 @@ test('--ancillary', function (t) {
 })
 
 test('-a with custom fd', function (t) {
-  var expected = '13961\n\n'
-  var args = ['-a', '3', ':pid']
-  var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['-a', '3', ':pid']
+  const msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe', 'pipe'],
     input: log + msg
@@ -197,10 +197,10 @@ test('-a with custom fd', function (t) {
 })
 
 test('-a 1 -d 2', function (t) {
-  var expected = '13961\n\n'
-  var args = ['-a', '1', '-d', '2', ':pid']
-  var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['-a', '1', '-d', '2', ':pid']
+  const msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log + msg
@@ -213,10 +213,10 @@ test('-a 1 -d 2', function (t) {
 })
 
 test('-a stderr', function (t) {
-  var expected = '13961\n\n'
-  var args = ['-a', 'stderr', ':pid']
-  var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['-a', 'stderr', ':pid']
+  const msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log + msg
@@ -229,10 +229,10 @@ test('-a stderr', function (t) {
 })
 
 test('-a stdout -d 2', function (t) {
-  var expected = '13961\n\n'
-  var args = ['-a', 'stdout', '-d', '2', ':pid']
-  var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['-a', 'stdout', '-d', '2', ':pid']
+  const msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log + msg
@@ -245,10 +245,10 @@ test('-a stdout -d 2', function (t) {
 })
 
 test('-a 1 -d 1', function (t) {
-  var expected = '13961'
-  var args = ['-a', '1', '-d', '1', ':pid']
-  var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961'
+  const args = ['-a', '1', '-d', '1', ':pid']
+  const msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log + msg
@@ -259,10 +259,10 @@ test('-a 1 -d 1', function (t) {
 })
 
 test('-k -a 2', function (t) {
-  var expected = '13961\n\n'
-  var args = ['-k', '-a', '2', ':pid']
-  var msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
-  var result = cp.spawnSync('node', ['cmd.js'].concat(args), {
+  const expected = '13961\n\n'
+  const args = ['-k', '-a', '2', ':pid']
+  const msg = '{"pid":94473,"hostname":"MacBook-Pro-3.home","level":30,"msg":"hello world","time":1459529098958,"v":1}\n'
+  const result = cp.spawnSync('node', ['cmd.js'].concat(args), {
     cwd: cwd,
     stdio: ['pipe', 'pipe', 'pipe'],
     input: log + msg

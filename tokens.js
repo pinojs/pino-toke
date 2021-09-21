@@ -1,7 +1,7 @@
 'use strict'
 
-var clfdate = require('clf-date')
-var auth = require('basic-auth')
+const clfdate = require('clf-date')
+const auth = require('basic-auth')
 
 module.exports = {
   id: function (o) {
@@ -21,7 +21,7 @@ module.exports = {
   },
   time: function (o, format) {
     if (format === 'iso') {
-      var date = o._lastDate || new Date(o.time)
+      const date = o._lastDate || new Date(o.time)
       o._lastDate = date
       return date.toISOString().split('T')[1].split('.')[0]
     }
@@ -34,7 +34,7 @@ module.exports = {
     return o.responseTime
   },
   date: function (o, format) {
-    var date = o._lastDate || new Date(o.time)
+    const date = o._lastDate || new Date(o.time)
     o._lastDate = date
     return format === 'iso'
       ? date.toISOString()
@@ -50,7 +50,7 @@ module.exports = {
     return o.req.remoteAddress
   },
   'remote-user': function (o) {
-    var user = auth.parse(o.req.headers.authorization)
+    const user = auth.parse(o.req.headers.authorization)
     if (!user) return
     return user.name
   },
@@ -63,9 +63,9 @@ module.exports = {
   },
   res: function (o, field) {
     if (!field) return
-    var headers = o._lastResHeaders || o.res.headers
+    const headers = o._lastResHeaders || o.res.headers
     o._lastResHeaders = headers
-    var key = headers[field]
+    const key = headers[field]
     if (!key) return
     return key
   }
