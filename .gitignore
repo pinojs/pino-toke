@@ -45,3 +45,5 @@ profile-*
 
 # VS Code
 .vscode/
+
+package-lock.json

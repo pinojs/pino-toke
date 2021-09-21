@@ -2,12 +2,14 @@
 
 var split = require('split2')
 var stream = require('readable-stream')
+var SonicBoom = require('sonic-boom')
+
 var pump = stream.pipeline
 var eos = stream.finished
 var Transform = stream.Transform
 var tokens = require('./tokens')
 
-function parse () {
+function parse (opts) {
   function parseRow (row) {
     try {
       return JSON.parse(row)
@@ -16,15 +18,35 @@ function parse () {
     }
   }
 
-  return split(parseRow)
+  return split(parseRow, opts)
 }
 
-module.exports = toke
+module.exports = tokeTransport
+module.exports.default = tokeTransport
+module.exports.toke = toke
 
 toke.compile = compile
 
+function tokeTransport (options) {
+  const opts = options || {}
+  const transformStream = toke(opts, getStream(opts.destination), getStream(opts.ancillary))
+  // console.log(transformStream.end.toString());
+  // transformStream.end = transformStream.destroy
+  return transformStream
+}
+
 function toke (format, destination, ancillary) {
-  var printer = parse()
+  var printer = parse({
+    autoDestroy: true,
+    destroy (err, cb) {
+      console.log('aalakakakakakakakakakaakakakakakakakakkakaka');
+      // printer.destroy()
+      cb(err)
+    }
+  })
+
+  // printer.on()
+
   if (typeof format === 'object') {
     var opts = format
     format = opts.format
@@ -32,6 +54,7 @@ function toke (format, destination, ancillary) {
   }
   var line = typeof format === 'function' ? format : compile(format)
   var transform = new Transform({
+    autoDestroy: true,
     objectMode: true,
     transform: function (o, _, cb) {
       if (!(o.req && o.res && o.msg === 'request completed')) {
@@ -57,6 +80,26 @@ function toke (format, destination, ancillary) {
   })
   transform.pipe(out)
 
+  printer.on('end', () => {
+    console.log('===============printer closed');
+  })
+  // printer.on('finish', () => {
+  //   console.log('---------------All writes are now complete.');
+  // });
+  // printer.on('data', (xxx) => {
+  //   console.log('---------------All writes are now complete.',xxx);
+  // });
+
+  // const x = printer.end
+  // process.nextTick(() => {
+
+  //   printer.end = function (...a) {
+  //     console.log(a);
+  //     x.apply(printer, a);
+  //   }
+  // })
+  // console.log(x);
+
   return printer
 }
 
@@ -73,3 +116,10 @@ function compile (format) {
 
 /* eslint no-useless-escape: 0 */
 /* eslint no-new-func: 0 */
+
+function getStream (fileDescriptor) {
+  if (fileDescriptor === 1) return process.stdout
+  else if (fileDescriptor === 2) return process.stderr
+  else if (fileDescriptor !== undefined) return SonicBoom({ dest: parseInt(fileDescriptor), sync: false })
+  return undefined
+}

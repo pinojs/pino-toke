@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var toke = require('./')
+var { toke } = require('./')
 var SonicBoom = require('sonic-boom')
 var args = require('minimist')(process.argv.slice(2), {
   alias: {
