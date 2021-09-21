@@ -8,7 +8,7 @@ const eos = stream.finished
 const Transform = stream.Transform
 const tokens = require('./tokens')
 
-function parse (opts) {
+function buildTransportStream (opts) {
   function parseRow (row) {
     try {
       return JSON.parse(row)
@@ -29,21 +29,14 @@ toke.compile = compile
 function tokeTransport (options) {
   const opts = options || {}
   const transformStream = toke(opts, getStream(opts.destination), getStream(opts.ancillary))
-  // console.log(transformStream.end.toString());
   // transformStream.end = transformStream.destroy
   return transformStream
 }
 
 function toke (format, destination, ancillary) {
-  const printer = parse({
-    autoDestroy: true,
-    destroy (err, cb) {
-      console.log('aalakakakakakakakakakaakakakakakakakakkakaka');
-      // printer.destroy()
-      cb(err)
-    }
+  const printer = buildTransportStream({
+    autoDestroy: true
   })
-  // printer.on()
 
   let keep
   if (typeof format === 'object') {
@@ -77,26 +70,6 @@ function toke (format, destination, ancillary) {
     printer.destroy()
   })
   transform.pipe(out)
-
-  printer.on('end', () => {
-    console.log('===============printer closed');
-  })
-  // printer.on('finish', () => {
-  //   console.log('---------------All writes are now complete.');
-  // });
-  // printer.on('data', (xxx) => {
-  //   console.log('---------------All writes are now complete.',xxx);
-  // });
-
-  // const x = printer.end
-  // process.nextTick(() => {
-
-  //   printer.end = function (...a) {
-  //     console.log(a);
-  //     x.apply(printer, a);
-  //   }
-  // })
-  // console.log(x);
 
   return printer
 }

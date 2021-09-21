@@ -2,7 +2,7 @@
 
 [![stability][0]][1]
 [![npm version][2]][3]
-[![Build & Test](https://github.com/pino/pino-toke/actions/workflows/ci.yml/badge.svg)](https://github.com/pino/pino-toke/actions/workflows/ci.yml)
+[![CI](https://github.com/pinojs/pino-toke/actions/workflows/ci.yml/badge.svg)](https://github.com/pinojs/pino-toke/actions/workflows/ci.yml)
 [![dependencies freshness][14]][15]
 [![js-standard-style][10]][11]
 
