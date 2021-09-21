@@ -1,11 +1,11 @@
 'use strict'
 
-var split = require('split2')
-var stream = require('readable-stream')
-var pump = stream.pipeline
-var eos = stream.finished
-var Transform = stream.Transform
-var tokens = require('./tokens')
+const split = require('split2')
+const stream = require('readable-stream')
+const pump = stream.pipeline
+const eos = stream.finished
+const Transform = stream.Transform
+const tokens = require('./tokens')
 
 function parse () {
   function parseRow (row) {
@@ -24,14 +24,15 @@ module.exports = toke
 toke.compile = compile
 
 function toke (format, destination, ancillary) {
-  var printer = parse()
+  const printer = parse()
+  let keep
   if (typeof format === 'object') {
-    var opts = format
+    const opts = format
     format = opts.format
-    var keep = opts.keep
+    keep = opts.keep
   }
-  var line = typeof format === 'function' ? format : compile(format)
-  var transform = new Transform({
+  const line = typeof format === 'function' ? format : compile(format)
+  const transform = new Transform({
     objectMode: true,
     transform: function (o, _, cb) {
       if (!(o.req && o.res && o.msg === 'request completed')) {
@@ -44,7 +45,7 @@ function toke (format, destination, ancillary) {
       cb(null, toWrite)
     }
   })
-  var out = destination || process.stdout
+  const out = destination || process.stdout
   pump(printer, transform, function (err) {
     if (err) {
       out.end(err.message + '\n')

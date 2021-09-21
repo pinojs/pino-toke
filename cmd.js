@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-var toke = require('./')
-var SonicBoom = require('sonic-boom')
-var args = require('minimist')(process.argv.slice(2), {
+const toke = require('./')
+const SonicBoom = require('sonic-boom')
+const args = require('minimist')(process.argv.slice(2), {
   alias: {
     h: ['help'],
     a: ['ancillary'],
@@ -15,9 +15,9 @@ if (args.h) {
   console.log(require('fs').readFileSync(require('path').join(__dirname, 'usage.txt')) + '')
   process.exit(0)
 }
-var format = args._.join(' ')
-var destination
-var ancillary
+let format = args._.join(' ')
+let destination
+let ancillary
 
 if ((args.d + '').toLowerCase() === 'stdout') args.d = 1
 else if ((args.d + '').toLowerCase() === 'stderr') args.d = 2
