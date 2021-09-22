@@ -7,7 +7,6 @@
     "pino-toke": "./cmd.js"
   },
   "scripts": {
-    "wtf": "wtfnode test/transport.js",
     "lint:fix": "standard --fix",
     "test": "standard && tap --timeout=0 test/*.js",
     "ci": "standard && tap --timeout=0 --cov --coverage-report=lcov test/*.js"

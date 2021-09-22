@@ -10,7 +10,7 @@ const pump = stream.pipeline
 const eos = stream.finished
 const Transform = stream.Transform
 
-function buildTransportStream () {
+function parse () {
   function parseRow (row) {
     try {
       return JSON.parse(row)
@@ -29,7 +29,7 @@ module.exports.toke = toke
 toke.compile = compile
 
 function toke (format, destination, ancillary) {
-  const printer = buildTransportStream()
+  const printer = parse()
 
   let keep
   if (typeof format === 'object') {
