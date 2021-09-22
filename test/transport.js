@@ -3,6 +3,7 @@
 const t = require('tap')
 const os = require('os')
 const fs = require('fs')
+const { spawnSync } = require('child_process')
 const { join } = require('path')
 const { once } = require('events')
 const { promisify } = require('util')
@@ -19,7 +20,7 @@ t.test('tock pino transport test', async t => {
 
   const fd = fs.openSync(destination, 'w+')
   const options = {
-    destination: 1,
+    destination: fd,
     format: ':hostname',
     keep: false
   }
@@ -42,6 +43,32 @@ t.test('tock pino transport test', async t => {
 
   const data = fs.readFileSync(destination, 'utf8')
   t.equal(data.trim(), logObj.hostname)
-  // await once(transport, 'close')
-  fs.closeSync(fd)
+})
+
+t.test('tock pino transport test stdout', async t => {
+  const result = spawnSync('node', [join(__dirname, 'fixtures', 'log-stdout.js'), '1'], {
+    cwd: process.cwd()
+  })
+  t.equal(result.output[1].toString().trim(), logObj.hostname)
+})
+
+t.test('tock pino transport test stderr', async t => {
+  const result = spawnSync('node', [join(__dirname, 'fixtures', 'log-stdout.js'), '2'], {
+    cwd: process.cwd()
+  })
+  t.equal(result.output[2].toString().trim(), logObj.hostname)
+})
+
+t.test('tock pino transport test', async t => {
+  try {
+    const transport = pino.transport({
+      target: join(__dirname, '../index.js'),
+      level: 'info'
+    })
+    pino(transport)
+    await once(transport, 'ready')
+    t.fail('should not be ready')
+  } catch (error) {
+    t.equal(error.message, 'Missing format option')
+  }
 })

@@ -8,7 +8,7 @@ const eos = stream.finished
 const Transform = stream.Transform
 const tokens = require('./tokens')
 
-function buildTransportStream (opts) {
+function buildTransportStream () {
   function parseRow (row) {
     try {
       return JSON.parse(row)
@@ -17,7 +17,7 @@ function buildTransportStream (opts) {
     }
   }
 
-  return split(parseRow, opts)
+  return split(parseRow, { autoDestroy: true })
 }
 
 module.exports = tokeTransport
@@ -26,17 +26,16 @@ module.exports.toke = toke
 
 toke.compile = compile
 
+/* istanbul ignore next */
 function tokeTransport (options) {
-  const opts = options || {}
-  const transformStream = toke(opts, getStream(opts.destination), getStream(opts.ancillary))
-  // transformStream.end = transformStream.destroy
-  return transformStream
+  if (!options || !options.format) {
+    throw new Error('Missing format option')
+  }
+  return toke(options, getStream(options.destination), getStream(options.ancillary), true)
 }
 
-function toke (format, destination, ancillary) {
-  const printer = buildTransportStream({
-    autoDestroy: true
-  })
+function toke (format, destination, ancillary, consume) {
+  const printer = buildTransportStream()
 
   let keep
   if (typeof format === 'object') {
@@ -59,17 +58,24 @@ function toke (format, destination, ancillary) {
     }
   })
   const out = destination || process.stdout
-  pump(printer, transform, function (err) {
-    if (err) {
-      out.end(err.message + '\n')
-      return
-    }
-    out.end('\n')
-  })
-  eos(out, function () {
-    printer.destroy()
-  })
-  transform.pipe(out)
+
+  if (consume) {
+    printer
+      .pipe(transform)
+      .pipe(out)
+  } else {
+    pump(printer, transform, function (err) {
+      if (err) {
+        out.end(err.message + '\n')
+        return
+      }
+      out.end('\n')
+    })
+    eos(out, function () {
+      printer.destroy()
+    })
+    transform.pipe(out)
+  }
 
   return printer
 }
