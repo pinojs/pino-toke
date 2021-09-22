@@ -299,11 +299,6 @@ MIT
 [1]: https://nodejs.org/api/documentation.html#documentation_stability_index
 [2]: https://img.shields.io/npm/v/pino-toke.svg?style=flat-square
 [3]: https://npmjs.org/package/pino-toke
-<<<<<<< HEAD
-[6]: https://img.shields.io/codecov/c/github/pinojs/pino-toke/master.svg?style=flat-square
-[7]: https://codecov.io/github/pinojs/pino-toke
-=======
->>>>>>> upstream/master
 [8]: http://img.shields.io/npm/dm/pino-toke.svg?style=flat-square
 [9]: https://npmjs.org/package/pino-toke
 [10]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
