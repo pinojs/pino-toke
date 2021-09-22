@@ -1,12 +1,14 @@
 'use strict'
 
-const SonicBoom = require('sonic-boom')
 const split = require('split2')
 const stream = require('readable-stream')
+const { compile } = require('./lib/parser')
+const tokens = require('./lib/tokens')
+const pinoTransport = require('./lib/transport')
+
 const pump = stream.pipeline
 const eos = stream.finished
 const Transform = stream.Transform
-const tokens = require('./tokens')
 
 function buildTransportStream () {
   function parseRow (row) {
@@ -20,19 +22,11 @@ function buildTransportStream () {
   return split(parseRow, { autoDestroy: true })
 }
 
-module.exports = tokeTransport
-module.exports.default = tokeTransport
+module.exports = pinoTransport
+module.exports.default = pinoTransport
 module.exports.toke = toke
 
 toke.compile = compile
-
-/* istanbul ignore next */
-function tokeTransport (options) {
-  if (!options || !options.format) {
-    throw new Error('Missing format option')
-  }
-  return toke(options, getStream(options.destination), getStream(options.ancillary))
-}
 
 function toke (format, destination, ancillary) {
   const printer = buildTransportStream()
@@ -71,25 +65,4 @@ function toke (format, destination, ancillary) {
   transform.pipe(out)
 
   return printer
-}
-
-function compile (format) {
-  return Function('tokens, o', 'return "' + format
-    .replace(/"/g, '\\"')
-    .replace(/\[\]/g, '')
-    .replace(/:([-\w]{2,})(?:\[([^\]]+)\])?/g, function (_, name, arg) {
-      return typeof tokens[name] === 'function'
-        ? '" + (tokens["' + name + '"](o' + (arg ? ', "' + arg + '"' : '') + ') || "-") + "'
-        : (arg ? ':' + name + '[' + arg + ']' : ':' + name)
-    }) + '\\n"')
-}
-
-/* eslint no-useless-escape: 0 */
-/* eslint no-new-func: 0 */
-
-function getStream (fileDescriptor) {
-  if (fileDescriptor === 1) return process.stdout
-  else if (fileDescriptor === 2) return process.stderr
-  else if (fileDescriptor !== undefined) return SonicBoom({ dest: parseInt(fileDescriptor), sync: false })
-  return undefined
 }
