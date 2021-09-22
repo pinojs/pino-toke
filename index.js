@@ -31,10 +31,10 @@ function tokeTransport (options) {
   if (!options || !options.format) {
     throw new Error('Missing format option')
   }
-  return toke(options, getStream(options.destination), getStream(options.ancillary), true)
+  return toke(options, getStream(options.destination), getStream(options.ancillary))
 }
 
-function toke (format, destination, ancillary, consume) {
+function toke (format, destination, ancillary) {
   const printer = buildTransportStream()
 
   let keep
@@ -58,26 +58,17 @@ function toke (format, destination, ancillary, consume) {
     }
   })
   const out = destination || process.stdout
-
-  if (consume) {
-    printer
-      .pipe(transform)
-      .on('error', () => {}) // todo dispose stream
-      .pipe(out)
-      .on('error', () => {}) // todo dispose stream
-  } else {
-    pump(printer, transform, function (err) {
-      if (err) {
-        out.end(err.message + '\n')
-        return
-      }
-      out.end('\n')
-    })
-    eos(out, function () {
-      printer.destroy()
-    })
-    transform.pipe(out)
-  }
+  pump(printer, transform, function (err) {
+    if (err) {
+      out.end(err.message + '\n')
+      return
+    }
+    out.end('\n')
+  })
+  eos(out, function () {
+    printer.destroy()
+  })
+  transform.pipe(out)
 
   return printer
 }
