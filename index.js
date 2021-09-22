@@ -62,7 +62,9 @@ function toke (format, destination, ancillary, consume) {
   if (consume) {
     printer
       .pipe(transform)
+      .on('error', () => {}) // todo dispose stream
       .pipe(out)
+      .on('error', () => {}) // todo dispose stream
   } else {
     pump(printer, transform, function (err) {
       if (err) {
