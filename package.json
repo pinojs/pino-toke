@@ -14,6 +14,7 @@
   "author": "David Mark Clements",
   "license": "MIT",
   "devDependencies": {
+    "pino": "^7.0.0-rc.6",
     "standard": "^16.0.3",
     "tap": "^15.0.9",
     "timeshift-js": "^1.1.1"
@@ -22,6 +23,7 @@
     "basic-auth": "^2.0.1",
     "clf-date": "0.2.0",
     "minimist": "^1.2.0",
+    "pino-abstract-transport": "^0.3.0",
     "readable-stream": "^3.6.0",
     "sonic-boom": "^2.2.3",
     "split2": "^3.1.1",

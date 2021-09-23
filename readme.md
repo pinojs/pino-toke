@@ -2,7 +2,7 @@
 
 [![stability][0]][1]
 [![npm version][2]][3]
-[![Build & Test](https://github.com/pino/pino-toke/actions/workflows/ci.yml/badge.svg)](https://github.com/pino/pino-toke/actions/workflows/ci.yml)
+[![CI](https://github.com/pinojs/pino-toke/actions/workflows/ci.yml/badge.svg)](https://github.com/pinojs/pino-toke/actions/workflows/ci.yml)
 [![dependencies freshness][14]][15]
 [![js-standard-style][10]][11]
 
@@ -21,7 +21,32 @@ format string as used in the [`morgan`](http://npm.im/morgan) logger.
 * [pino-http](http://npm.im/pino-http)
 * [hapi-pino](http://npm.im/hapi-pino)
 
-## Usage
+
+## Usage as Pino Transport
+
+You can use this module as a [pino transport](https://getpino.io/#/docs/transports?id=v7-transports) like so:
+
+```js
+const pino = require('pino')
+const transport = pino.transport({
+  target: 'pino-toke',
+  level: 'info',
+  options: {
+    destination: 1, // optional (default stdout)
+    ancellary: 2, // optional
+    format: ':method :url :status :res[content-length] - :response-time ms', // required
+    keep: false // optional
+  }
+})
+pino(transport)
+```
+
+The options object's properties are [described below](#options).
+
+## Usage as Pino Legacy Transport
+
+Pino supports a [legacy transport interface](https://getpino.io/#/docs/transports?id=legacy-transports)
+that is still supported by this module.
 
 ```sh
 $ npm install -g pino-toke
@@ -57,7 +82,9 @@ pipe it to `pino-toke` and desribe the format in tokenized form
 $ node server | pino-toke :method :url :status :res[content-length] - :response-time ms
 ```
 
-## Destination (`-d`)
+## Options
+
+### Destination (`-d`)
 
 By default, logs are output to STDOUT, however we can set the `-d` (alias, `--dest`, `--destination`), flag to a a `stderr`, or a number (`1` for stdout, `2` for stderr, `3` or more for custom file descriptor):
 
@@ -79,7 +106,7 @@ will most likely immediately crash (this is to do with how unix works).
 $ node server | pino-toke -d 8 :status :get :url - :response-time ms 8> ./http-logs
 ```
 
-## Ancillary Output (`-a`)
+### Ancillary Output (`-a`)
 
 By default, any logs which aren't an HTTP log (meaning, they don't have `req` and `res`
 properties and the `msg` isn't "request complete") are filtered out.
@@ -113,7 +140,7 @@ This will sends formatted HTTP logs to the `./http-logs` file and pipe all other
 $ node server | pino-toke -a 1 -d 4 :status :get :url - :response-time ms 4> ./http-logs | pino-elasticsearch
 ```
 
-## Keep Original HTTP JSON Logs (`-k`)
+### Keep Original HTTP JSON Logs (`-k`)
 
 The `-a` (`--ancillary`) flag can be coupled with the `-k` (`--keep`) flag so that
 raw HTTP JSON logs are also piped to the ancillary output stream, along with any
@@ -230,6 +257,7 @@ can also contain normal text, which will appear between the tokens.
 Unrecognized tokens will appear in the output as normal text.
 
 ```js
+const { toke } = require('pino-toke')
 toke(':method :url :status')
 ```
 

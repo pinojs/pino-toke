@@ -1,6 +1,6 @@
 'use strict'
 
-const toke = require('../')
+const { toke } = require('../')
 const through = require('through2')
 const test = require('tap').test
 const TimeShift = require('timeshift-js')
