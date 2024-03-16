@@ -333,6 +333,5 @@ MIT
 [11]: https://github.com/feross/standard
 [12]: https://npm.im/debug
 [13]: https://npm.im/github/pinojs/pino
-[14]: https://david-dm.org/pinojs/pino-toke/status.svg
-[15]: https://david-dm.org/pinojs/pino-toke
-
+[14]: https://img.shields.io/librariesio/release/npm/pino-toke
+[15]: https://libraries.io/npm/pino-toke
