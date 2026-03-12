@@ -34,7 +34,7 @@ else if (args.a === 2) ancillary = process.stderr
 else if (args.a !== undefined) ancillary = SonicBoom({ dest: parseInt(args.a) })
 
 if (args.k) {
-  format = { format: format, keep: true }
+  format = { format, keep: true }
 }
 
 process.stdin.pipe(toke(format, destination, ancillary))
