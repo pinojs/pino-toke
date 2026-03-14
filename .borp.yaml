@@ -1,0 +1,7 @@
+files:
+  - 'test/*.test.js'
+
+coverage:
+  lines: 95
+  branches: 93
+  statements: 95
